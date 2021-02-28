@@ -1,0 +1,79 @@
+
+
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Noto+Sans+JP:wght@500&display=swap');
+
+
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    width: 960px;
+    margin: auto;
+    background-color: #f4f4f2;
+    line-height: 2;
+    
+  }
+  
+  img {
+    width: 100%;
+  }
+  
+  header {
+    background: #393e46;
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    align-items: center;
+  }
+  
+  
+  .container {
+    display: grid;
+    grid-template-rows: 100px minmax(calc(100vh - 170px) , 1fr) 50px;
+    gap: 10px;
+  }
+  
+  h2{
+   margin: 10px;
+
+   font-weight: bold;
+   font-size: large; 
+   text-transform: capitalize;
+   
+
+   font-family: 'Noto Sans JP', sans-serif;
+
+
+  }
+  
+  .image-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    background-color: #e8e8e8;
+  }
+  .image-section  img{
+    width:100%;
+    height: 100%;
+  }
+  
+  ul{
+    list-style-type: square;
+    list-style-position: inside;
+    background-color: #bbbfca;
+    font-family: 'Libre Baskerville', serif;
+    column-count: 2 ;
+    column-rule: 4px double #e8e8e8;
+
+  }
+  footer {
+    display: flex;
+    align-items: center;
+    background:#495464;
+    color: #F7F7F7;
+    text-align: center;
+  }
+  
+  footer p {
+    width: 100%;
+  }
