@@ -31,6 +31,7 @@ let itemsNamesExtension = [
   'usb.gif',
   'water-can.jpg',
   'wine-glass.jpg', ];
+let pastIndex = [];
 
 let itemNames = [ 'bag',
 
@@ -60,6 +61,54 @@ function randomNumber( min, max ) {
   return Math.floor( Math.random() * ( max - min + 1 ) ) + min;
 }
 
+function renderChart() {
+
+  let nameArray = [];
+  let clicksArray = [];
+  let appearingArray = [];
+
+  for(let i = 0; i < Product.all.length; i++) {
+    nameArray.push(Product.all[i].name);
+    clicksArray.push(Product.all[i].selectionCounter);
+    appearingArray.push(Product.all[i].appearingCounter);
+
+  }
+  console.log(appearingArray);
+
+  let ctx = document.getElementById( 'myChart' ).getContext( '2d' );
+  new Chart( ctx, {
+    type: 'bar',
+    data: {
+      labels: nameArray,
+      datasets: [
+        {
+          label: '# of Appearances',
+          data: appearingArray,
+          backgroundColor: 'rgb(0, 0, 255)',
+          borderColor: 'rgba(0,0,0, 1)',
+          borderWidth: 1
+        },
+        {
+          label: '# of Votes',
+          data: clicksArray,
+          backgroundColor: 'rgb(255, 0, 0)',
+          borderColor: 'rgb(0,0,0)',
+          borderWidth: 1
+        }
+        
+      ]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  } );
+}
 
 function Product(name,photoName){
   this.name = name;
@@ -80,35 +129,41 @@ for( let i = 0; i < itemsNamesExtension.length; i++ ) {
 }
 
 function renderProducts() {
-  let leftIndex = randomNumber( 0, Product.all.length - 1 );
+  let leftIndex=0 ;
+  let rightIndex =0 ;
+  let middleIndex = 0;
+  do {
+    leftIndex = randomNumber( 0, Product.all.length - 1 );
+
+  } while (leftIndex === leftProductIndex|| leftIndex === rightProductIndex || leftIndex === middleProductIndex );
   leftImage.src = Product.all[leftIndex].image;
   leftImage.alt = Product.all[leftIndex].name;
-  leftProductIndex = leftIndex;
 
-  let rightIndex;
   do {
     rightIndex = randomNumber( 0, Product.all.length - 1 );
-  } while( leftIndex === rightIndex );
-  
+  } while( leftIndex === rightIndex || rightIndex === leftProductIndex|| rightIndex === rightProductIndex || rightIndex === middleProductIndex);
+
   rightImage.src = Product.all[rightIndex].image;
   rightImage.alt = Product.all[rightIndex].name;
-  rightProductIndex = rightIndex;
 
-  let middleIndex;
+
   do {
     middleIndex = randomNumber( 0, Product.all.length - 1 );
-  } while( leftIndex === middleIndex  || rightIndex === middleIndex);
-  
+  } while( (rightIndex === middleIndex) || leftIndex === middleIndex|| middleIndex === leftProductIndex|| middleIndex === rightProductIndex || middleIndex === middleProductIndex);
+
   middleImage.src = Product.all[middleIndex].image;
   middleImage.alt = Product.all[middleIndex].name;
   middleProductIndex = middleIndex;
+  leftProductIndex = leftIndex;
+  rightProductIndex = rightIndex;
+  pastIndex = [middleProductIndex,leftProductIndex,rightProductIndex];
 
-  
+  console.log(pastIndex);
 
   Product.all[leftIndex].appearingCounter++;
   Product.all[rightIndex].appearingCounter++;
   Product.all[middleIndex].appearingCounter++;
-   
+
 
   // rightImage.src = Product.all[0].image;
 }
@@ -140,6 +195,7 @@ function handelClick( event ) {
   } else{
     buttonElement.style.visibility='visible';
     buttonElement.innerHTML = 'View Results';
+    renderChart();
     imageSection.removeEventListener( 'click', handelClick);
 
 
@@ -158,7 +214,6 @@ buttonElement.style.visibility='hidden';
 imageSection.addEventListener( 'click', handelClick );
 buttonElement.addEventListener('click',showResults);
 
-// Helper function
 
 
 
