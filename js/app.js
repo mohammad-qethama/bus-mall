@@ -120,6 +120,16 @@ function Product(name,photoName){
 Product.all = [];
 Product.counter=0;
 
+function getData() {
+  const data = localStorage.getItem('products');
+  if(data) {
+    const objData = JSON.parse(data);
+    Product.all = objData;
+    console.log(Product.all);
+
+  }
+}
+
 
 
 
@@ -167,7 +177,9 @@ function renderProducts() {
 
   // rightImage.src = Product.all[0].image;
 }
+getData();
 renderProducts();
+
 
 function handelClick( event ) {
 
@@ -195,6 +207,8 @@ function handelClick( event ) {
   } else{
     buttonElement.style.visibility='visible';
     buttonElement.innerHTML = 'View Results';
+    localStorage.setItem( 'products', JSON.stringify(Product.all ) )
+
     renderChart();
     imageSection.removeEventListener( 'click', handelClick);
 
